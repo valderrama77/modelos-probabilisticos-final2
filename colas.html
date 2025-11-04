@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Calculadora de Teoría de Colas</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="bg-ornaments">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="grid-overlay"></div>
+  </div>
+
+  <div class="device">
+    <div class="bezel">
+      <div class="notch"></div>
+      <div class="screen">
+        <div class="container">
+          <div class="topbar">
+            <!-- botón Inicio (parte superior izquierda) -->
+            <a href="index.html" class="btn-home" title="Inicio">Inicio</a>
+
+            <div class="brand">
+              <div class="brand-logo"></div>
+              <h1>Calculadora de Teoría de Colas</h1>
+            </div>
+            <div class="actions">
+              <div class="toggle" id="themeToggle" onclick="alternarTema()">
+                <span>Modo oscuro</span>
+                <div class="switch" id="themeSwitch"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-banner">
+            <h2>Modelos disponibles</h2>
+            <p>Calcula métricas para los modelos M/M/1, M/M/c, M/M/1/K y M/M/c/K.</p>
+          </div>
+
+          <div class="calculator">
+            <div class="section">
+              <div class="section-title">Paso 1: Elige el modelo</div>
+
+              <div class="size-selector" style="grid-template-columns: repeat(auto-fit,minmax(180px,1fr)); gap:12px;">
+                <div class="size-option selected" data-model="mm1" id="opt-mm1" onclick="selectModel('mm1')">M/M/1</div>
+                <div class="size-option" data-model="mmc" id="opt-mmc" onclick="selectModel('mmc')">M/M/c</div>
+                <div class="size-option" data-model="mm1k" id="opt-mm1k" onclick="selectModel('mm1k')">M/M/1/K</div>
+                <div class="size-option" data-model="mg1" id="opt-mg1" onclick="selectModel('mg1')">M/M/c/K</div>
+              </div>
+            </div>
+
+            <div class="section" id="paramsSection">
+              <div class="section-title">Paso 2: Parámetros del sistema</div>
+
+              <!-- Campos genéricos; se muestran/ocultan según modelo -->
+              <div class="input-group" id="param-lambda">
+                <label for="lambda">Tasa de llegada λ (clientes/tiempo)</label>
+                <input id="lambda" type="number" min="0" step="any" placeholder="Ej. 2.5">
+              </div>
+
+              <div class="input-group" id="param-mu">
+                <label for="mu">Tasa de servicio μ (servicios/tiempo)</label>
+                <input id="mu" type="number" min="0" step="any" placeholder="Ej. 3.0">
+              </div>
+
+              <div class="input-group" id="param-c" style="display:none;">
+                <label for="c">Número de servidores c</label>
+                <input id="c" type="number" min="1" step="1" value="1">
+              </div>
+
+              <div class="input-group" id="param-k" style="display:none;">
+                <label for="k">Capacidad total del sistema K (incluye servidor)</label>
+                <input id="k" type="number" min="1" step="1" value="10">
+              </div>
+
+              <div class="input-group" id="param-sigma" style="display:none;">
+                <label for="sigma">Desviación estándar servicio (solo M/G/1)</label>
+                <input id="sigma" type="number" min="0" step="any" placeholder="Ej. 1.2">
+              </div>
+
+              <div style="display:flex; gap:10px; margin-top:10px;">
+                <button class="btn" onclick="computeQueue()">Calcular</button>
+                <button class="btn btn-secondary btn-small" onclick="resetQueue()">Limpiar</button>
+                <button class="btn btn-secondary btn-small" onclick="location.href='inicio.html'">Volver</button>
+              </div>
+
+              <div id="queueError" class="error" style="margin-top:12px;"></div>
+            </div>
+
+            <div class="section" id="resultsQueue" style="display:none;">
+              <div class="section-title">Resultados</div>
+
+              <div id="queueSummary" class="result-explanation" style="margin-bottom:12px;"></div>
+
+              <div class="result-section">
+                <div class="result-title">Medidas fundamentales</div>
+                <div id="queueMeasures" class="probability-grid"></div>
+              </div>
+
+              <div class="result-section">
+                <div class="result-title">Explicación / Fórmulas</div>
+                <div id="queueFormulas" class="mono" style="padding:12px;"></div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="footer">Calculadora de Teoria de Colas.<code></code><code></code></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- math.js para operaciones numéricas (ejemplo CDN) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.min.js"></script>
+  <script src="app.js"></script>
+  <script src="colas.js"></script>
+</body>
+</html>

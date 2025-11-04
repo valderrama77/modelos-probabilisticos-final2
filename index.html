@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Inicio  Calculadoras</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="bg-ornaments">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="grid-overlay"></div>
+  </div>
+
+  <div class="device">
+    <div class="bezel">
+      <div class="notch"></div>
+      <div class="screen">
+        <div class="container">
+          <!-- Barra superior -->
+          <div class="topbar">
+            <div class="brand">
+              <div class="brand-logo"></div>
+              <h1>Centro de Calculadoras</h1>
+            </div>
+            <div class="actions">
+              <div class="toggle" id="themeToggle" onclick="alternarTema()">
+                <span>Modo oscuro</span>
+                <div class="switch" id="themeSwitch"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sección informativa -->
+          <div class="info-banner">
+            <h2>Bienvenido </h2>
+            <p>Selecciona la herramienta que deseas utilizar y dale solución a tus problemas de cadenas de Markov o teoría de colas.</p>        
+
+          <!-- Cuerpo principal -->
+          <div class="calculator">
+            <div class="section">
+              <div class="section-title">Selecciona una calculadora</div>
+
+              <div class="size-selector" style="grid-template-columns: repeat(auto-fit,minmax(250px,1fr)); gap:20px;">
+                <!-- Opción Markov -->
+                <div class="size-option" onclick="location.href='calculadora.html'">
+                  <strong>Calculadora de Cadenas de Markov</strong>
+                  <p style="font-weight:600; font-size:0.95rem; margin-top:8px;">
+                    Matrices de transición, vectores estacionarios, simulaciones de estados.
+                  </p>
+                </div>
+
+                <!-- Opción Colas -->
+                <div class="size-option" onclick="location.href='colas.html'">
+                  <strong>Calculadora de Teoría de Colas</strong>
+                  <p style="font-weight:600; font-size:0.95rem; margin-top:8px;">
+                    Modelos M/M/1, M/M/c, M/M/1/K y M/G/1 con medidas de desempeño.
+                  </p>
+                </div>
+              </div>
+
+              <div style="margin-top:18px; display:flex; gap:10px; flex-wrap:wrap;">
+                <button class="btn" onclick="location.href='calculadora.html'">Ir a Markov</button>
+                <button class="btn" onclick="location.href='colas.html'">Ir a Colas</button>
+              </div>
+            </div>
+
+            <div class="section" style="margin-top:14px;">
+              <div class="section-title">Información</div>
+              <div style="color:var(--muted); line-height:1.7;">
+                Este proyecto integra dos herramientas educativas:  
+                <ul style="margin-top:8px; margin-left:18px;">
+                  <li><b>Cadenas de Markov</b> — análisis de procesos estocásticos.</li>
+                  <li><b>Teoría de Colas</b> — evaluación del rendimiento en sistemas de espera.</li>
+                </ul>
+                Juan Molina, Ivan Carvajal, Santiago Valderrama.
+              </div>
+            </div>
+          </div>
+
+          <div class="footer">
+            Proyecto académico — Calculadoras interactivas de cadenas de markov y teorias de colas <b></b>.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

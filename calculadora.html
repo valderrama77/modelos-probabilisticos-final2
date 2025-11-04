@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Cadenas de Markov</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="bg-ornaments">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="grid-overlay"></div>
+    </div>
+
+    <div class="device">
+        <div class="bezel">
+            <div class="notch"></div>
+            <div class="screen">
+                <div class="container">
+                    <div class="topbar">
+                        <!-- botón Inicio (parte superior izquierda) -->
+                        <a href="index.html" class="btn-home" title="Inicio">Inicio</a>
+
+                        <div class="brand">
+                            <div class="brand-logo"></div>
+                            <h1>Calculadora de Cadenas de Markov</h1>
+                        </div>
+                        <div class="actions">
+                            <div class="toggle" id="themeToggle" onclick="alternarTema()">
+                                <span>Modo oscuro</span>
+                                <div class="switch" id="themeSwitch"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-banner">
+                        <h2>¿Qué es una Cadena de Markov?</h2>
+                        <p>
+                            Soluciona Cadenas de Markov seleccionando transiciones entre estados, Probabilidades de transición, estado inicial y numero de pasos.
+                        </p>
+                    </div>
+
+                    <div class="calculator">
+                        <div class="step-indicator">
+                            <div class="step active" id="step1">1</div>
+                            <div class="step" id="step2">2</div>
+                            <div class="step" id="step3">3</div>
+                            <div class="step" id="step4">4</div>
+                        </div>
+
+                        <div class="section" id="section1">
+                            <div class="section-title">Paso 1: ¿Cuántos estados tiene tu sistema?</div>
+                            <div class="size-selector" id="sizeSelector">
+                                <div class="size-option" data-size="2">2 Estados</div>
+                                <div class="size-option selected" data-size="3">3 Estados</div>
+                                <div class="size-option" data-size="4">4 Estados</div>
+                                <div class="size-option" data-size="5">5 Estados</div>
+                                <div class="size-option" data-size="6">6 Estados</div>
+                            </div>
+                            <select id="numStates" style="display:none;"></select>
+                        </div>
+                        
+                        <div class="section" id="section2" style="display:none;">
+                            <div class="section-title">Paso 2: Nombra tus estados (opcional)</div>
+                            <div class="state-names-container" id="stateNamesContainer"></div>
+                            <div class="nav-row">
+                                <button class="btn btn-secondary btn-small" onclick="irAlPaso(1)">← Atrás</button>
+                                <button id="btnNextStep2" class="btn btn-small" onclick="irAlPaso(3)" disabled>Siguiente →</button>
+                            </div>
+                        </div>
+
+                        <div class="section" id="section3" style="display:none;">
+                            <div class="section-title">Paso 3: Probabilidades de transición</div>
+                            <div class="matrix-container-wrapper">
+                                <div id="matrixInput" class="matrix-input"></div>
+                            </div>
+                            <div class="nav-row">
+                                <button class="btn btn-secondary btn-small" onclick="irAlPaso(2)">← Atrás</button>
+                                <button id="btnNextStep3" class="btn btn-small" onclick="irAlPaso(4)" disabled>Siguiente →</button>
+                            </div>
+                        </div>
+
+                        <div class="section" id="section4" style="display:none;">
+                            <div class="section-title">Paso 4: Cálculos opcionales</div>
+                            <div class="input-group">
+                                <label for="initialState">Estado inicial</label>
+                                <select id="initialState">
+                                    <option value="">No calcular por pasos</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label for="numSteps">Número de pasos</label>
+                                <input type="number" id="numSteps" min="1" value="5" placeholder="Ej: 5">
+                            </div>
+                            <div class="examples-grid">
+                                <div class="example-card" onclick="cargarEjemploClima()">
+                                    <h4>Clima</h4>
+                                    <p>Soleado, Nublado, Lluvioso</p>
+                                </div>
+                                <div class="example-card" onclick="cargarEjemploClientes()">
+                                    <h4>Clientes</h4>
+                                    <p>Satisfecho, Neutral, Insatisfecho</p>
+                                </div>
+                                <div class="example-card" onclick="cargarEjemploSalud()">
+                                    <h4>Salud</h4>
+                                    <p>Sano, Enfermo, Recuperándose</p>
+                                </div>
+                            </div>
+                            <button class="btn" onclick="calcularResultados()">Calcular resultados</button>
+                            <div class="nav-row">
+                                <button class="btn btn-secondary btn-small" onclick="irAlPaso(3)">← Atrás</button>
+                                <button class="btn btn-secondary btn-small" onclick="reiniciarAlInicio()">Volver al inicio</button>
+                                <button class="btn btn-tertiary btn-small" onclick="limpiarTodo()">Limpiar todo</button>
+                                <button class="btn btn-small" style="margin-left:auto" onclick="mostrarProceso()">Ver proceso</button>
+                            </div>
+                            <div id="error" class="error"></div>
+                        </div>
+
+                        <div id="results" class="results">
+                            <div class="result-section">
+                                <div class="result-title">Probabilidades a largo plazo (Vector estacionario)</div>
+                                <div class="result-explanation">
+                                    Muestra el porcentaje del tiempo que el sistema permanece en cada estado después de muchas transiciones.
+                                </div>
+                                <div id="stationaryVector" class="probability-grid"></div>
+                                <canvas id="stationaryChart" height="120"></canvas>
+                            </div>
+                            <div class="result-section" id="stepResultsSection" style="display:none;">
+                                <div class="result-title">Probabilidades después de N Pasos</div>
+                                <div class="result-explanation" id="stepExplanation"></div>
+                                <div id="stepResults" class="probability-grid"></div>
+                                <canvas id="stepsChart" height="120"></canvas>
+                            </div>
+                            <div class="result-section">
+                                <div class="result-title">Matriz de transición ingresada</div>
+                                <div class="matrix-display"><div id="matrixDisplay"></div></div>
+                            </div>
+                            <div class="result-section" id="processSection" style="display:none;">
+                                <div class="result-title">Proceso y validaciones</div>
+                                <div class="result-explanation" id="processExplanation"></div>
+                                <div id="processDetails"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="footer">Cadenas de Markov.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+    <script src="app.js"></script>
+</body>
+</html>
